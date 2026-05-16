@@ -105,7 +105,7 @@ namespace s3mo
             fileListView.SetDoubleBuffered();
 
             Logger.InfoLoggedEvent += s => { logListBox.Items.Add("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + s); logListBox.TopIndex = logListBox.Items.Count - 1; };
-            //Logger.DebugLoggedEvent += s => { logListBox.Items.Add("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + s); logListBox.TopIndex = logListBox.Items.Count - 1; };
+            Logger.DebugLoggedEvent += s => { logListBox.Items.Add("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + s); logListBox.TopIndex = logListBox.Items.Count - 1; };
             Logger.WarningLoggedEvent += s => { logListBox.Items.Add("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + s); logListBox.TopIndex = logListBox.Items.Count - 1; };
             Logger.ErrorLoggedEvent += s => { logListBox.Items.Add("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + s); logListBox.TopIndex = logListBox.Items.Count - 1; };
         }

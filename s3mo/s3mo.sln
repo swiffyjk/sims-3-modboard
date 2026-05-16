@@ -9,16 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "s3molib", "..\s3molib\s3mol
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8858A511-7F2D-43FA-B28D-D519549F1903}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8858A511-7F2D-43FA-B28D-D519549F1903}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8858A511-7F2D-43FA-B28D-D519549F1903}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8858A511-7F2D-43FA-B28D-D519549F1903}.Release|Any CPU.Build.0 = Release|Any CPU
-		{22596D82-492D-4FD3-825F-71745EA84256}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{22596D82-492D-4FD3-825F-71745EA84256}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22596D82-492D-4FD3-825F-71745EA84256}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22596D82-492D-4FD3-825F-71745EA84256}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
