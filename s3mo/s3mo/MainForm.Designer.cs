@@ -602,6 +602,7 @@
             // 
             // md5BackgroundWorker
             // 
+            this.md5BackgroundWorker.WorkerSupportsCancellation = true;
             this.md5BackgroundWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this.md5BackgroundWorker_DoWork);
             this.md5BackgroundWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.md5BackgroundWorker_RunWorkerCompleted);
             // 
