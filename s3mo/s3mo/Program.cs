@@ -15,13 +15,14 @@ namespace s3mo
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-
             string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "s3mo.log");
-            StreamWriter w = new StreamWriter(logPath);
-            Logger.InfoLoggedEvent += s => w.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + s); w.Flush(); w.BaseStream.Flush();
-            Logger.DebugLoggedEvent += s => w.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + s); w.Flush(); w.BaseStream.Flush();
-            Logger.WarningLoggedEvent += s => w.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + s); w.Flush(); w.BaseStream.Flush();
-            Logger.ErrorLoggedEvent += s => w.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + s); w.Flush(); w.BaseStream.Flush();
+
+            TextWriter tw = TextWriter.Synchronized(new StreamWriter(logPath) { AutoFlush = true });
+
+            Logger.InfoLoggedEvent += s => tw.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + s);
+            Logger.DebugLoggedEvent += s => tw.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + s);
+            Logger.WarningLoggedEvent += s => tw.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + s);
+            Logger.ErrorLoggedEvent += s => tw.WriteLine("[" + DateTime.Now.ToString("HH:mm:ss") + "] " + s);
 
             string iniPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "s3mo.ini");
             if (!File.Exists(iniPath))
@@ -32,9 +33,6 @@ namespace s3mo
             Application.Run(new MainForm());
 
             Settings.WriteSettings();
-
-            w.Flush();
-            w.BaseStream.Close();
         }
 
     }
