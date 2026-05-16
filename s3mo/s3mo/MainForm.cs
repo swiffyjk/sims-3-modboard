@@ -311,7 +311,9 @@ namespace s3mo
 
         private void profileComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string profileName = (string)profileComboBox.SelectedItem;
+            if (profileComboBox.SelectedItem is not string profileName)
+                return;
+
             if (_currentProfile.Equals(profileName))
                 return;
 

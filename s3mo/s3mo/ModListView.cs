@@ -34,11 +34,13 @@ namespace s3mo
             if (this.SelectedItems.Count == 0)
                 return;
 
-            Point localPoint = this.PointToClient(new Point(drgevent.X, drgevent.Y));
-            ListViewItem hoverItem = this.GetItemAt(localPoint.X, localPoint.Y);
-            ListViewItem topItem = this.TopItem;
 
-            if (hoverItem == null)
+
+            Point localPoint = this.PointToClient(new Point(drgevent.X, drgevent.Y));
+            ListViewItem? hoverItem = this.GetItemAt(localPoint.X, localPoint.Y);
+            ListViewItem? topItem = this.TopItem;
+
+            if (hoverItem == null || topItem == null)
                 return;
 
             int i = this.Items.IndexOf(topItem);
@@ -59,7 +61,7 @@ namespace s3mo
             Point cp = this.PointToClient(new Point(drgevent.X, drgevent.Y));
 
             //Obtain the item that is located at the specified location of the mouse pointer.
-            ListViewItem dragToItem = this.GetItemAt(cp.X, cp.Y);
+            ListViewItem? dragToItem = this.GetItemAt(cp.X, cp.Y);
             if (dragToItem == null)
                 return;
 

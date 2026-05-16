@@ -54,7 +54,10 @@ namespace s3mo
                 Settings.SetSettings("ModFormHeight", Size.Height);
             }
             Settings.SetSettings("ModFormMaximized", (WindowState == FormWindowState.Maximized ? true : false));
-            Settings.SetSettings("ModFormTab", tabControl.TabPages.IndexOf(tabControl.SelectedTab));
+            if (tabControl.SelectedTab != null)
+            {
+                Settings.SetSettings("ModFormTab", tabControl.TabPages.IndexOf(tabControl.SelectedTab));
+            }
 
             Settings.SetSettings("ModFormPackageSplitContainerSplitterDistance", packageSplitContainer.SplitterDistance);
             Settings.SetSettings("ModFormPackageHeaderWidth", packageHeader.Width);

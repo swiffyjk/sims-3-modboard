@@ -22,19 +22,22 @@ namespace s3mo
 
             ModModel modModel = _profileModel.GetModModel(modListView.SelectedItems[0].Text);
 
-            if (!modModel.TryGetPackageModel(e.Item.Text, out PackageModel packageModel))
-                return;
-
-            List<PackageModel> conflictingPackageModels = packageModel.ConflictingPackageModelsInModModel;
-
-            foreach (PackageModel p in conflictingPackageModels)
+            if (e.Item != null)
             {
-                int comp = StringLogicalComparer.Compare(p.Name, packageModel.Name);
+                if (!modModel.TryGetPackageModel(e.Item.Text, out PackageModel packageModel))
+                    return;
 
-                if (comp < 0)
-                    fileListView_conflictLosingPackageModel.Add(p.Name);
-                else if (comp > 0)
-                    fileListView_conflictWinningPackageModel.Add(p.Name);
+                List<PackageModel> conflictingPackageModels = packageModel.ConflictingPackageModelsInModModel;
+
+                foreach (PackageModel p in conflictingPackageModels)
+                {
+                    int comp = StringLogicalComparer.Compare(p.Name, packageModel.Name);
+
+                    if (comp < 0)
+                        fileListView_conflictLosingPackageModel.Add(p.Name);
+                    else if (comp > 0)
+                        fileListView_conflictWinningPackageModel.Add(p.Name);
+                }
             }
         }
 
@@ -106,7 +109,7 @@ namespace s3mo
                 return;
 
             ListViewHitTestInfo info = fileListView.HitTest(e.X, e.Y);
-            ListViewItem listViewItem = info.Item;
+            ListViewItem? listViewItem = info.Item;
 
             if (listViewItem == null || !Path.GetExtension(listViewItem.Text).Equals(".package", StringComparison.OrdinalIgnoreCase))
                 return;

@@ -53,47 +53,51 @@ namespace s3mo
 
             if (modListView.SelectedItems.Count != 1)
                 return;
-
-            List<PackageModel> packageModels = _profileModel.GetModModel(e.Item.Text).PackageModels;
-            packageModels.Sort((p1, p2) => StringLogicalComparer.Compare(p1.Name, p2.Name));
-
-            foreach (PackageModel packageModel in packageModels)
+            if (e.Item != null)
             {
-                ListViewItem listViewItem = new ListViewItem(packageModel.Name);
-                listViewItem.SubItems.Add(String.Empty);
-                fileListView.Items.Add(listViewItem);
-            }
+                List<PackageModel> packageModels = _profileModel.GetModModel(e.Item.Text).PackageModels;
 
-            string[] otherFiles = Directory.GetFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Mods\\{e.Item.Text}"))
-                                                    .Where(f => !f.EndsWith(".package")).Select(p => Path.GetFileName(p)).ToArray();
+                packageModels.Sort((p1, p2) => StringLogicalComparer.Compare(p1.Name, p2.Name));
 
-            foreach (string otherFile in otherFiles)
-            {
-                ListViewItem listViewItem = new ListViewItem(otherFile);
-                listViewItem.SubItems.Add(String.Empty);
-                fileListView.Items.Add(listViewItem);
-            }
+                foreach (PackageModel packageModel in packageModels)
+                {
+                    ListViewItem listViewItem = new ListViewItem(packageModel.Name);
+                    listViewItem.SubItems.Add(String.Empty);
+                    fileListView.Items.Add(listViewItem);
+                }
 
-            // Responsible for conflict row color change
-            modListView_losingConflictingModModels.Clear();
-            modListView_winningConflictingModModels.Clear();
+                string[] otherFiles = Directory.GetFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"Mods\\{e.Item.Text}"))
+                                                        .Where(f => !f.EndsWith(".package")).Select(p => Path.GetFileName(p)).ToArray();
 
-            ModModel modModel = _profileModel.GetModModel(e.Item.Text);
 
-            if (!modModel.Enabled)
-                return;
+                foreach (string otherFile in otherFiles)
+                {
+                    ListViewItem listViewItem = new ListViewItem(otherFile);
+                    listViewItem.SubItems.Add(String.Empty);
+                    fileListView.Items.Add(listViewItem);
+                }
 
-            List<ModModel> conflictingModModels = modModel.ConflictingModModels.FindAll(m => m.Enabled);
+                // Responsible for conflict row color change
+                modListView_losingConflictingModModels.Clear();
+                modListView_winningConflictingModModels.Clear();
 
-            if (conflictingModModels.Count == 0)
-                return;
+                ModModel modModel = _profileModel.GetModModel(e.Item.Text);
 
-            foreach (ModModel conflict in conflictingModModels)
-            {
-                if (conflict.Priority < modModel.Priority)
-                    modListView_losingConflictingModModels.Add(conflict.Name);
-                else if (modModel.Priority < conflict.Priority)
-                    modListView_winningConflictingModModels.Add(conflict.Name);
+                if (!modModel.Enabled)
+                    return;
+
+                List<ModModel> conflictingModModels = modModel.ConflictingModModels.FindAll(m => m.Enabled);
+
+                if (conflictingModModels.Count == 0)
+                    return;
+
+                foreach (ModModel conflict in conflictingModModels)
+                {
+                    if (conflict.Priority < modModel.Priority)
+                        modListView_losingConflictingModModels.Add(conflict.Name);
+                    else if (modModel.Priority < conflict.Priority)
+                        modListView_winningConflictingModModels.Add(conflict.Name);
+                }
             }
         }
 
@@ -191,7 +195,7 @@ namespace s3mo
         private void modListView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             ListViewHitTestInfo info = modListView.HitTest(e.X, e.Y);
-            ListViewItem listViewItem = info.Item;
+            ListViewItem? listViewItem = info.Item;
 
             if (listViewItem == null)
                 return;
