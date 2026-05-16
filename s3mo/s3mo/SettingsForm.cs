@@ -23,7 +23,7 @@ namespace s3mo
             Settings.SetSettings("DocumentsFolderPath", documentsTextBox.Text);
             Settings.SetSettings("BuildSizeLimit", buildSizeLimitNumericUpDown.Value);
             Settings.SetSettings("BuildPriority", buildPrioirtyNumbericUpDown.Value);
-            Settings.SetSettings("BuildResourceCFG", resourcecfgTextBox.Text.Replace(Environment.NewLine, " \\n "));
+            Settings.SetSettings("BuildResourceCFG", resourcecfgTextBox.Text.Replace(Environment.NewLine, "\\n"));
             Settings.SetSettings("ClearCASPartCache", casPartCacheCheckBox.Checked);
             Settings.SetSettings("ClearCompositorCache", compositorCacheCheckBox.Checked);
             Settings.SetSettings("ClearScriptCache", scriptCacheCheckBox.Checked);
@@ -57,7 +57,7 @@ namespace s3mo
             if (Settings.TryGetSettings("BuildPriority", out obj) && int.TryParse(obj, out i))
                 buildPrioirtyNumbericUpDown.Value = i;
             if (Settings.TryGetSettings("BuildResourceCFG", out obj))
-                resourcecfgTextBox.Text = obj.Replace(" \\n ", Environment.NewLine);
+                resourcecfgTextBox.Text = obj.Replace("\\n", Environment.NewLine);
             if (Settings.TryGetSettings("ClearCASPartCache", out obj) && bool.TryParse(obj, out bool b))
                 casPartCacheCheckBox.Checked = b;
             if (Settings.TryGetSettings("ClearCompositorCache", out obj) && bool.TryParse(obj, out b))

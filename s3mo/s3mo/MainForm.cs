@@ -211,7 +211,7 @@ namespace s3mo
             };
 
             if (Settings.TryGetSettings("BuildResourceCFG", out string resourcecfg))
-                modSetupLines = modSetupLines.Concat(resourcecfg.Split(" \\n ")).ToArray();
+                modSetupLines = modSetupLines.Concat(resourcecfg.Split("\\n")).ToArray();
 
             foreach (string l in modSetupLines)
                 w.WriteLine(l);
