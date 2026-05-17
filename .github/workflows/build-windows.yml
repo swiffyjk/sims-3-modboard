@@ -1,0 +1,56 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Build for Windows
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: windows-2025-vs2026
+
+    env:
+      Solution_Name: s3mo/s3mo.sln 
+      Archive_Name: s3mo-windows
+      Archive_Directory: s3mo/s3mo/bin/Release/publish
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6.0.2
+      with:
+        fetch-depth: 0
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v5.2.0
+      with:
+        dotnet-version: 9.0.x
+
+    - name: Cache NuGet packages
+      uses: actions/cache@v5.0.5
+      with:
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+        restore-keys: ${{ runner.os }}-nuget-
+
+    - name: Build
+      run: dotnet publish $env:Solution_Name -c Release
+
+    - name: Append commit SHA to filename
+      run: echo "Archive_Name=$($env:Archive_Name)-$($env:GITHUB_SHA.Substring(0,7))" >> $env:GITHUB_ENV
+
+    - name: Zip output
+      run: Compress-Archive -Path "$env:Archive_Directory/**" -DestinationPath "$env:Archive_Name.zip"
+
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v7.0.1
+      with:
+        archive: false
+        name: ${{ env.Archive_Name }}
+        path: ${{ env.Archive_Name }}.zip
