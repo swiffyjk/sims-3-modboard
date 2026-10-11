@@ -49,7 +49,7 @@ jobs:
       run: Compress-Archive -Path "$env:Archive_Directory/**" -DestinationPath "$env:Archive_Name.zip"
 
     - name: Upload build artifact
-      uses: actions/upload-artifact@v7.0.1
+      uses: actions/upload-artifact@v7.0.2
       with:
         archive: false
         name: ${{ env.Archive_Name }}
